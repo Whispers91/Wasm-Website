@@ -1,9 +1,10 @@
+import Hero from "./hero/Hero"
+import Navbar from "./nav/Navbar"
+
 function HomePage() {
     return (
-        <div>
-            <h1>Hello Ledger!</h1>
-            <p>Welcome to our Website.</p>
-        </div>
+        <Navbar/>,
+        <Hero/>
     )
 }
 
