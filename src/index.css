@@ -17,6 +17,10 @@
     --color-border: #26364D;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @theme {
     --font-sans: "Inter", sans-serif;
     --color-background: #080D18;
@@ -35,3 +39,36 @@
     --text-small: 14px;
     --text-label: 12px;
 }
+
+
+.site-background {
+  position: relative;
+  isolation: isolate;
+  background-color: #080D18;
+}
+
+.site-background::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse 65% 45% at 50% 35%,
+      rgba(37, 99, 235, 0.19),
+      transparent 75%
+    ),
+    radial-gradient(
+      ellipse 40% 35% at 65% 50%,
+      rgba(14, 165, 233, 0.08),
+      transparent 75%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 30% 80%,
+      rgba(79, 70, 229, 0.07),
+      transparent 75%
+    );
+}
+
