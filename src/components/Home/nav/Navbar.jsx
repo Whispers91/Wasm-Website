@@ -64,7 +64,7 @@ export default function Navbar() {
                     </p>
                   </div>
 
-                  <div className="space-y-1">
+                  <div className="space-y-1 cursor-pointer">
                     {homeSections.map((section) => {
                       const Icon = section.icon;
 

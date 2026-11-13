@@ -27,11 +27,12 @@ export default function Problem() {
   return (
     <section
       id="problem"
+      name="problem"
       className="mx-auto max-w-7xl px-6 py-24"
     >
-      {/* Heading */}
+
       <div className="max-w-2xl">
-        <span className="text-label font-semibold uppercase tracking-[0.2em] text-primary-light">
+        <span className="text-xl font-semibold uppercase tracking-[0.2em] text-primary-light">
           The Problem
         </span>
 
@@ -48,7 +49,6 @@ export default function Problem() {
         </p>
       </div>
 
-      {/* Problem points */}
       <div className="mt-14 grid gap-6 md:grid-cols-3">
         {problems.map((problem) => {
           const Icon = problem.icon
@@ -74,7 +74,6 @@ export default function Problem() {
         })}
       </div>
 
-      {/* Takeaway */}
       <div className="mt-8 flex items-start gap-3 rounded-xl border border-primary/20 bg-primary/5 p-5">
         <ArrowRight size={19} className="mt-0.5 shrink-0 text-primary-light" />
 

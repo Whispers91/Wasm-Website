@@ -1,5 +1,6 @@
+import Example from "./example/example";
 import Hero from "./hero/Hero";
-import Navbar from "./nav/Navbar";
+import HowItWorks from "./howItWorks/HowItWorks";
 import Problem from "./problem/Problem";
 
 function HomePage() {
@@ -7,6 +8,7 @@ function HomePage() {
     <main>
       <Hero />
       <Problem />
+      <HowItWorks/>
     </main>
   );
 }
