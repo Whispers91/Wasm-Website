@@ -1,121 +1,109 @@
-import React from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { Link as ScrollLink } from 'react-scroll'
-import {
-  CodeXml,
-  ChevronDown,
-  House,
-  CircleAlert,
-  Workflow,
-  GitCompareArrows,
-  Network,
-  Terminal,
-} from "lucide-react";
+
+import { useEffect } from 'react'
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom'
+import { Link as ScrollLink, scroller } from 'react-scroll'
+
+import { ArrowUpRight, CodeXml } from 'lucide-react'
+import { RxGithubLogo } from 'react-icons/rx'
+
+import SiteNavigation from '../../Sidebar/SiteNavigation'
 
 const homeSections = [
-  { label: "Overview", id: "hero", icon: House },
-  { label: "The Problem", id: "problem", icon: CircleAlert },
-  { label: "How It Works", id: "how-it-works", icon: Workflow },
-  { label: "Example", id: "example", icon: GitCompareArrows },
-  { label: "Architecture", id: "architecture", icon: Network },
-  { label: "Getting Started", id: "getting-started", icon: Terminal },
-];
+  { label: 'Overview', id: 'hero' },
+  { label: 'The problem', id: 'problem' },
+  { label: 'How it works', id: 'how-it-works' },
+  { label: 'Example', id: 'example' },
+]
+
+const githubUrl = 'https://github.com/Whispers91/Wasm-Website'
 
 export default function Navbar() {
-  return (
-    <nav className="sticky top-0 z-50 border-b border-border bg-background/85 px-6 py-4 backdrop-blur-xl">
-      <div className="mx-auto flex items-center justify-between">
-        <RouterLink to="/" className="group flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/30 bg-primary/10 transition duration-300 group-hover:border-primary/60 group-hover:bg-primary/20">
-            <CodeXml
-              size={21}
-              className="text-primary-light transition-transform duration-300 group-hover:scale-110"
-            />
-          </div>
+  const location = useLocation()
+  const navigate = useNavigate()
 
-          <span className="text-xl font-bold tracking-[0.15em] text-text">
+  const isHomePage = location.pathname === '/'
+
+  // Handle navigation from other pages back to a homepage section.
+  useEffect(() => {
+    const sectionId = location.state?.scrollTo
+
+    if (!isHomePage || !sectionId) return
+
+    scroller.scrollTo(sectionId, {
+      smooth: true,
+      duration: 550,
+      offset: -88,
+    })
+
+    // Clear the navigation state after handling it.
+    navigate('/', { replace: true, state: null })
+  }, [isHomePage, location.state, navigate])
+
+  const handleSectionClick = (sectionId) => {
+    navigate('/', { state: { scrollTo: sectionId } })
+  }
+
+  return (
+    <header className="sticky top-0 z-40 border-b border-border bg-[#080D18]/95 backdrop-blur-xl">
+      <div className="mx-auto flex h-[72px] max-w-[1440px] items-center gap-5 px-5 sm:px-8">
+        <SiteNavigation />
+
+        <RouterLink
+          to="/"
+          className="flex shrink-0 items-center gap-2.5"
+          aria-label="Ledger home"
+        >
+          <span className="inline-flex size-[34px] items-center justify-center rounded-md border border-primary-light/30 bg-primary/10 text-primary-light">
+            <CodeXml size={20} strokeWidth={1.8} />
+          </span>
+
+          <span className="text-[17px] font-semibold tracking-[0.16em] text-text">
             LEDGER
           </span>
         </RouterLink>
 
-        <div className="flex items-center gap-8">
-          <div className="flex items-center gap-8">
-            <div className="group relative">
-              <a
-                href="/"
-                className="relative flex items-center gap-2 py-2 text-body font-medium text-text-muted transition-colors duration-200 hover:text-text"
+        <nav
+          aria-label="Homepage sections"
+          className="ml-auto hidden items-center gap-5 lg:flex xl:gap-7"
+        >
+          {homeSections.map((section) =>
+            isHomePage ? (
+              <ScrollLink
+                key={section.id}
+                to={section.id}
+                smooth
+                duration={550}
+                offset={-88}
+                spy
+                activeClass="!text-text"
+                className="cursor-pointer whitespace-nowrap py-[25px] text-[13px] font-medium text-text-muted transition-colors hover:text-text"
               >
-                Home
-                <ChevronDown
-                  size={15}
-                  className="transition-transform duration-300 group-hover:rotate-180"
-                />
-                <span className="absolute bottom-0 left-0 w-0 rounded-full bg-primary transition-all duration-300 group-hover:w-full" />
-              </a>
+                {section.label}
+              </ScrollLink>
+            ) : (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => handleSectionClick(section.id)}
+                className="cursor-pointer whitespace-nowrap py-[25px] text-[13px] font-medium text-text-muted transition-colors hover:text-text"
+              >
+                {section.label}
+              </button>
+            )
+          )}
+        </nav>
 
-              <div className="invisible absolute left-0 top-full z-50 w-64 translate-y-3 pt-4 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                <div className="rounded-xl border border-border bg-surface/95 p-3 shadow-2xl shadow-black/30 backdrop-blur-xl">
-                  <div className="mb-2 px-3 pb-3 pt-1">
-                    <p className="text-label font-semibold uppercase tracking-[0.15em] text-primary-light">
-                      Explore Ledger
-                    </p>
-                    <p className="mt-1 text-small text-text-muted">
-                      Navigate through the project
-                    </p>
-                  </div>
-
-                  <div className="space-y-1 cursor-pointer">
-                    {homeSections.map((section) => {
-                      const Icon = section.icon;
-
-                      return (
-                        <ScrollLink
-                          key={section.id}
-                          to={section.id}
-                          smooth={true}
-                          duration={600}
-                          offset={-80}
-                          className="group/item flex items-center gap-3 rounded-lg px-3 py-2.5 text-small text-text-muted transition-all duration-200 hover:translate-x-1 hover:bg-card hover:text-primary-light"
-                        >
-                          <Icon
-                            size={16}
-                            className="shrink-0 transition-colors group-hover/item:text-primary-light"
-                          />
-
-                          {section.label}
-                        </ScrollLink>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <RouterLink
-              to="/blog"
-              className="group relative py-2 text-body font-medium text-text-muted transition-colors duration-200 hover:text-text"
-            >
-              Blog
-              <span className="absolute bottom-0 left-0 w-0 rounded-full bg-primary transition-all duration-300 group-hover:w-full" />
-            </RouterLink>
-          </div>
-
-          <div className="border-l border-border pl-6">
-            <a
-              href="https://github.com/Whispers91/Wasm-Website"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit Ledger on GitHub"
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-text-muted transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/50 hover:bg-primary/10 hover:text-primary-light hover:shadow-lg hover:shadow-primary/10"
-            >
-              <CodeXml
-                size={21}
-                className="transition-transform duration-300 hover:scale-110"
-              />
-            </a>
-          </div>
-        </div>
+        <a
+          href={githubUrl}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Visit Ledger on GitHub"
+          className="ml-auto inline-flex cursor-pointer items-center gap-2 border-l border-border pl-4 text-[13px] text-text-muted transition-colors hover:text-text lg:ml-0"
+        >
+          <RxGithubLogo size={24} />
+          <ArrowUpRight size={13} />
+        </a>
       </div>
-    </nav>
-  );
+    </header>
+  )
 }

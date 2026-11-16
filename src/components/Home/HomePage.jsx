@@ -1,15 +1,18 @@
-import Example from "./example/example";
 import Hero from "./hero/Hero";
-import HowItWorks from "./howItWorks/HowItWorks";
 import Problem from "./problem/Problem";
+import HowItWorks from "./howItWorks/HowItWorks";
+import Example from "./example/Example";
+import Footer from "./footer/Footer";
 
 function HomePage() {
   return (
-    <main>
+    <>
       <Hero />
       <Problem />
-      <HowItWorks/>
-    </main>
+      <HowItWorks />
+      <Example />
+      <Footer />
+    </>
   );
 }
 
